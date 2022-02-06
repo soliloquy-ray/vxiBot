@@ -1,0 +1,33 @@
+<div id="container">
+	<div class="body">
+		<!-- <div class="carousel-list">
+			<span class="carousel" *ngFor="let c of data; let i = index;" (click)="select(c)">
+				<div class="layer">
+					<img src="{{c?.img}}"/>
+					<div class="text">
+						<b>{{c?.title}}</b>
+						<p>{{c?.description}}</p>
+					</div>
+				</div>
+			</span>
+		</div> -->
+		<table #dt datatable [dtOptions]="dtOptions" class="row-border hover">
+		  <tfoot style="display: table-header-group;">
+		    <tr>
+		      <th></th>
+		      <th></th>
+		      <th><input class="form-group form-control" type="text" placeholder="Search Category" name="search-cat"/></th>
+		      <th><input class="form-group form-control" type="text" placeholder="Search Title" name="search-title"/></th>
+		      <th></th>
+		      <th></th>
+		      <th></th>
+		      <!--
+		      <th colspan="4">&nbsp;</th>
+		      <th><input type="text" placeholder="Search Description" name="search-description"/></th>
+		      <th><input type="text" placeholder="Search Link" name="search-url"/></th>
+		      <th><input type="text" placeholder="Search Image" name="search-img"/></th> -->
+		    </tr>
+		  </tfoot>
+		</table>
+	</div>
+</div>

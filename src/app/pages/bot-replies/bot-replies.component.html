@@ -1,0 +1,30 @@
+<div id="container">
+	<div class="body">
+		<!-- <div class="carousel-list">
+			<span class="carousel" *ngFor="let c of data; let i = index;" (click)="select(c)">
+				<div class="layer">
+					<img src="{{c?.img}}"/>
+					<div class="text">
+						<b>{{c?.title}}</b>
+						<p>{{c?.description}}</p>
+					</div>
+				</div>
+			</span>
+		</div> -->
+
+		<mat-card>
+		Note:<br/>
+		1. Words inside curly braces {{ '{}' }} or double curly braces {{ '{{}}' }} preceded by a dollar sign $ (e.g. {{ '{' }}$name{{'}'}}, {{'{{'}}$name {{'}}'}}) should not be edited.<br/>
+		2. Refrain from removing all characters preceded by backslash "\" such as \n.
+		</mat-card>
+		<table #dt datatable [dtOptions]="dtOptions" class="row-border hover botReplies">
+		</table>
+	</div>
+</div>
+
+<!-- <span class="hide">
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <textarea matInput name="hack" id="hack" [(ngModel)]="hack" type="text"></textarea>
+  </mat-form-field>
+</span> -->

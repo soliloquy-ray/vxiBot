@@ -1,0 +1,27 @@
+<div id="uc-container">
+	<mat-form-field>
+		<mat-label>Search</mat-label>
+		<input matInput name="search" [(ngModel)]="search" type="text"/>
+	</mat-form-field>
+	<p>Messages</p>
+	<div class="msg-list">
+		<span *ngFor="let d of data;let i = index;" [ngClass]="{'hide':!d.name.toLowerCase().trim().includes(search.trim().toLowerCase()) && !d.message.toLowerCase().trim().includes(search.trim().toLowerCase()), 'sel':selected == d.id}" (click)="replyMsg(d.id,d.type,d.message,d.user_id,d.created)">
+			<div class="layer" class="{{d?.type}}">
+		        <fa-icon [icon]="faUser"></fa-icon>
+		        <div class="text">
+		        	<p>
+		        		{{d?.name}}
+		        		<i>{{d?.created}}</i>
+		        	</p>
+		        	<b>
+		        		{{d?.message}}
+		        	</b>
+		        </div>
+		    </div>
+		</span>
+		<div *ngIf="data.length < 1">
+			<br/>
+			<p>Loading data...</p>
+		</div>
+	</div>
+</div>

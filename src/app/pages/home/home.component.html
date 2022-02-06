@@ -1,0 +1,76 @@
+<div id="container">
+	<div class="body">
+		<span class="dates">
+			<mat-form-field>
+				<mat-label>Filter By Start Date</mat-label>
+				<input matInput [max]="dateEnd" type="date" [(ngModel)]="dateStart" (change)="reloadData(this)"/>
+			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Filter By End Date</mat-label>
+				<input matInput [min]="dateStart" type="date" [(ngModel)]="dateEnd" (change)="reloadData(this)"/>
+			</mat-form-field>
+		</span>
+		<span class="elem">
+			<app-counter-info [title]="'Number of active users today'" [count]="activeUsers" [icon]="faUser" [color]="'gold'"></app-counter-info>
+			<app-counter-info [title]="'Total number of new users'" [count]="totalUsers" [icon]="faUsers" [color]="'steelblue'"></app-counter-info>
+			<app-counter-info [title]="'Number of applicants today'" [count]="dailyApplicants" [icon]="faUserCheck" [color]="'forestgreen'"></app-counter-info>
+			<app-counter-info [title]="'Total number of applicants'" [count]="totalApplicants" [icon]="faUserFriends" [color]="'blueviolet'"></app-counter-info>
+		</span>
+		<span class="elem">
+			<app-counter-info [title]="'Total overall subscribers'" [count]="totalSubs" [icon]="faUserFriends" [color]="'darkorange'"></app-counter-info>
+			<app-counter-info [title]="'Total number of duplicates'" [count]="totalDupes" [icon]="faUserPlus" [color]="'darkred'"></app-counter-info>
+			<app-counter-info [title]="'Total number of leads'" [count]="totalLeads" [icon]="faUsers" [color]="'royalblue'"></app-counter-info>
+			<app-counter-info [title]="'Total number of hires'" [count]="totalHired" [icon]="faUser" [color]="'#7fa956'"></app-counter-info>
+		</span>
+		<span class="elem">
+			<app-counter-info [title]="'Conversion Rate by Application'" [count]="0" [icon]="faUser" [color]="'wheat'"></app-counter-info>
+			<app-counter-info [title]="'Conversion Rate By Position'" [count]="0" [icon]="faUserFriends" [color]="'deepskyblue'"></app-counter-info>
+			<app-counter-info [title]="'Conversion Rate By Location'" [count]="0" [icon]="faUsers" [color]="'hotpink'"></app-counter-info>
+		</span>
+		<span class="elem">
+			<!-- <div style="display: block">
+			  <canvas mdbChart
+			      [chartType]="chartType"
+			      [datasets]="chartDatasets"
+			      [labels]="chartLabels"
+			      [colors]="chartColors"
+			      [options]="chartOptions"
+			      [legend]="true"
+			      (chartHover)="chartHovered($event)"
+			      (chartClick)="chartClicked($event)">
+			  </canvas>
+			</div> -->
+			<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+			  <li [ngbNavItem]="1">
+			    <a ngbNavLink>Applicants By Site</a>
+			    <ng-template ngbNavContent>
+		    		<div [chart]="charts[0]"></div>
+			    </ng-template>
+			  </li>
+			  <li [ngbNavItem]="2">
+			    <a ngbNavLink>Applicants By Status</a>
+			    <ng-template ngbNavContent>
+					<mat-form-field>
+						<mat-label>Filter Location</mat-label>
+				      	<mat-select name="targetLoc" class="form-control" [(ngModel)]="targetLoc" placeholder="Search Site" (selectionChange)="reloadData($event)">
+							<mat-option value="" selected>All Locations</mat-option>
+						  <mat-option *ngFor="let s of sites" value="{{s.title}}">
+						    {{s.title}}
+						  </mat-option>
+						</mat-select>
+					</mat-form-field>
+		    		<div [chart]="charts[1]"></div>
+			    </ng-template>
+			  </li>
+			  <li [ngbNavItem]="3">
+			    <a ngbNavLink>Applicants By Job</a>
+			    <ng-template ngbNavContent>
+		    		<div [chart]="charts[2]"></div>
+			    </ng-template>
+			  </li>
+			</ul>
+
+			<div [ngbNavOutlet]="nav" class="mt-2"></div>
+		</span>
+	</div>
+</div>

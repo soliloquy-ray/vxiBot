@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Give the template a title</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Title</mat-label>
+    <input matInput name="title" [(ngModel)]="title" type="text" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button aria-label="close dialog" [mat-dialog-close]="0">Cancel</button>
+  <button mat-button [mat-dialog-close]="title">Save</button>
+</div>

@@ -1,0 +1,205 @@
+<div id="container">
+	<span class="actions">
+		<a [ngClass]="{'disabled':targets.length < 1}" (click)="addtoG(grp)">Add to Group</a>
+		<a [ngClass]="{'disabled':targets.length < 1 && targetGroups.length < 1,'viber':true}" (click)="sendViber(viber)">Send Viber</a>
+		<a [ngClass]="{'disabled':targets.length < 1 && targetGroups.length < 1,'sms':true}" (click)="sendSMS(content)">Send SMS</a>
+		<a (click)="checkAll()">Check All</a>
+		<a [ngClass]="{'disabled':targets.length < 1}" (click)="checkAll(false)">Uncheck All</a>
+		<a (click)="clearFilters()">Clear Filters</a>
+	</span>
+	<table #dt datatable [dtOptions]="dtOptions" class="row-border hover">
+	  <tfoot style="display: table-header-group;">
+	    <tr>
+	      <th>&nbsp;</th>
+	      <th><input class="form-control" type="text" placeholder="Search First Name" name="search-fname"/></th>
+	      <th><input class="form-control" type="text" placeholder="Search Last Name" name="search-lname"/></th>
+	      <th>
+	      	<select name="position" class="form-control" placeholder="Search Position">
+			  	<option value="" selected>---Search position---</option>
+			    <option *ngFor="let pos of poss" [value]="pos.position">
+			      {{pos.position}}
+			    </option>
+			  </select>
+		  </th>
+	      <th><input class="form-control" type="text" placeholder="Search Phone" name="search-phone"/></th>
+	      <th>
+	      	<select name="location" class="form-control" placeholder="Search Site">
+				<option value="" selected>---Search Site---</option>
+			  <option *ngFor="let s of sites" [value]="s.title">
+			    {{s.title}}
+			  </option>
+			</select>
+	      </th>
+	      <th><input class="form-control" type="text" placeholder="Search Status" name="search-status"/></th>
+	      <th>
+	      	<input class="form-control" id="min" [(ngModel)]="min" type="date" placeholder="Applied from" name="search-platform" max="{{max}}"/><br/>
+	      	<input class="form-control" id="max" [(ngModel)]="max" type="date" placeholder="Applied to" name="search-platform" min="{{min}}"/>
+	  	</th>
+	    </tr>
+	  </tfoot>
+	</table>
+	<!-- <div>
+		<div *ngFor="let d of dataSet;let i = index" class="candidate">
+			<span>
+				<input type="checkbox" class="form-control" (change)="checkers($event,d)"/>
+			</span>
+			<div>
+				<p>{{d?.first_name}} {{d?.last_name}}</p>
+				<p>{{d?.position}}</p>
+				<p>{{d?.location}}</p>
+				<p>{{d?.status}}</p>
+			</div>
+		</div>
+	</div> -->
+	<app-groups (grOpen)="grouper($event)"></app-groups>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Send SMS - {{targets.length}} recipients, {{targetGroups.length}} groups</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss(0)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+	<!-- <app-groups (open)="grp($event)"></app-groups> -->
+    
+	<div class="messaging">
+		<div class="inner">
+			<mat-card>Variables can be used such as: <a (click)="add_text('$first_name')">$first_name</a>, <a (click)="add_text('$last_name')">$last_name</a>, <a (click)="add_text('$position')">$position</a>, and <a (click)="add_text('$location')">$location</a>.</mat-card>
+			<textarea [(ngModel)]="msg" name="msg" id="msg"></textarea>
+			<div>
+				<mat-label>Send Later</mat-label>
+				<mat-checkbox [(ngModel)]="sched"></mat-checkbox>
+			</div>
+			<div *ngIf="sched" class="scheduler">
+				<mat-form-field>
+					<mat-label>Date</mat-label>
+					<input matInput type="date" [(ngModel)]="date" required/>
+				</mat-form-field>
+				<mat-form-field>
+					<mat-label>Time</mat-label>
+					<input matInput type="time" [(ngModel)]="time" required/>
+				</mat-form-field>
+			</div>
+			<span class="btn_ctrl">
+				<button class="btn" *ngIf="msg.length > 0" (click)="openDialog()">Save New Template</button>
+				<button class="btn" (click)="useTemplate()">Use Template</button>
+				<button class="btn btn-primary" (click)="smsToList()">Send</button>
+			</span>
+		</div>
+	</div>
+	<div class="templates">
+		<h3>Templates</h3>
+		<div class="temp">
+			<div class="list">
+				<ul>
+					<li *ngFor="let t of templates; let i = index" [ngClass]="{'selected':prevSelect == t.id}"><a (click)="picked(t?.id)">{{t?.title}}</a></li>
+				</ul>
+			</div>
+			<div class="preview">
+				<textarea [(ngModel)]="prevText" readonly></textarea>
+			</div>
+		</div>
+	</div>
+  </div>
+</ng-template>
+
+<ng-template #grp let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Select Group</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss(0)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="group">{{targets.length}} members will be added to this group.</label>
+        <div class="input-group">
+          <select #sel id="group" class="form-control" name="group">
+          	<option *ngFor="let g of groups;let i = index" [value]="g.id">{{g.name}}</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close(sel.value)">Save</button>
+  </div>
+</ng-template>
+
+
+<ng-template #viber let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Send Viber - {{targets.length}} recipients, {{targetGroups.length}} groups</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss(0)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+	<!-- <app-groups (open)="grp($event)"></app-groups> -->
+    
+	<div class="messaging viber">
+		<div class="inner">
+			<mat-card>Variables can be used such as: <a (click)="add_text('$first_name')">$first_name</a>, <a (click)="add_text('$last_name')">$last_name</a>, <a (click)="add_text('$position')">$position</a>, and <a (click)="add_text('$location')">$location</a>.</mat-card>
+			<form id="viberform">
+				<input type="hidden" name="mobs" [(ngModel)]="mobs"/>
+				<mat-form-field>
+					<mat-label>Link</mat-label>
+					<input matInput type="url" name="lnk" [(ngModel)]="viberLink" [required]="viberBtn.trim().length > 0"/>
+				</mat-form-field>
+				<mat-form-field>
+					<mat-label>Button Label</mat-label>
+					<input matInput type="text" name="lbl" [(ngModel)]="viberBtn" [required]="viberLink.trim().length > 0"/>
+				</mat-form-field>
+				<br/>
+				<mat-form-field>
+					<mat-label>Message</mat-label>
+					<textarea matInput [(ngModel)]="msg" name="msg" id="msg"></textarea>
+				</mat-form-field>
+				<br/>
+				<span>
+					<a class="btn btn-primary">
+						<fa-icon [icon]="faPaperclip"></fa-icon>
+						<input name="img" type="file" accept=".png,.jpg,.gif" (change)="updImg($event)" accept=".png,.jpg,.gif,.svg"/>					
+					</a>
+					<img src="{{prev}}" />
+				</span>
+				<br/>
+				<mat-form-field>
+					<mat-label>Date</mat-label>
+					<input matInput type="date" name="date" [(ngModel)]="date" required/>
+				</mat-form-field>
+				<mat-form-field>
+					<mat-label>Time</mat-label>
+					<input matInput type="time" name="time" [(ngModel)]="time" required/>
+				</mat-form-field>
+				<br/>
+			</form>
+			<!-- <span class="btn_ctrl">
+			</span> -->
+		</div>
+	</div>
+	<!-- <div class="templates viber">
+		<h3>Templates</h3>
+		<div class="temp">
+			<div class="list">
+				<ul>
+					<li *ngFor="let t of templates; let i = index" [ngClass]="{'selected':prevSelect == t.id}"><a (click)="picked(t?.id)">{{t?.title}}</a></li>
+				</ul>
+			</div>
+			<div class="preview">
+				<textarea [(ngModel)]="prevText" readonly></textarea>
+			</div>
+		</div>
+	</div> -->
+  </div>
+  <div class="modal-footer">
+	<!-- <button class="btn" *ngIf="msg.length > 0" (click)="openDialog()">Save New Template</button>
+	<button class="btn" (click)="useTemplate()">Use Template</button> -->
+	<button class="btn btn-primary" (click)="viberToList()">Send</button>
+  </div>
+</ng-template>

@@ -1,1 +1,144 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+html, body { height: 100%; }
+body { 
+	margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
+	min-width: initial !important;
+
+}
+
+app-home #container {
+	.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+	    color: #ff924c ;
+	}
+}
+
+.form-control:focus {
+    color: #ff924c;
+    box-shadow: none !important;
+}
+
+.cdk-overlay-container{
+   z-index:1051 !important; //higher then fixed header z-index so it comes above
+}
+
+
+tr{
+	.form-control{
+		height: 30px !important;
+		border:1px solid #ff924c!important;
+		box-shadow:none !important;
+		font-size:12px;
+	}
+}
+
+img.fifty{
+	max-width: 50px;
+	height: auto;
+	object-fit: contain;
+}
+
+
+table:not(.botReplies){
+	tbody{
+		tr.even{
+			background-color: #93786e !important;
+			color: #fff;
+		}
+	}
+}
+
+input,select,textarea{
+	border:1px solid #ff924c;
+}
+
+.mat-button.cdk-keyboard-focused .mat-button-focus-overlay, .mat-button.cdk-program-focused .mat-button-focus-overlay, .mat-icon-button.cdk-keyboard-focused .mat-button-focus-overlay, .mat-icon-button.cdk-program-focused .mat-button-focus-overlay, .mat-stroked-button.cdk-keyboard-focused .mat-button-focus-overlay, .mat-stroked-button.cdk-program-focused .mat-button-focus-overlay, .mat-flat-button.cdk-keyboard-focused .mat-button-focus-overlay, .mat-flat-button.cdk-program-focused .mat-button-focus-overlay{
+	opacity:unset;
+	background:initial;
+}
+
+button:hover{
+	outline: none !important;
+	border:0 !important;
+}
+
+
+mat-dialog-container{
+	mat-form-field{
+		width: 100%;
+	}
+
+}
+
+@font-face {
+  font-family: SegoeUI;
+  src: url('./assets/fonts/seguisb.ttf') format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+}
+@font-face {
+  font-family: SegoeUIB;
+  src: url('./assets/fonts/segoeuib.ttf') format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+*{
+	font-family: SegoeUI;
+}
+
+.mat-checkbox-frame {
+    border-color: initial;
+}
+
+
+mat-checkbox{
+	display: inline-block;
+	vertical-align: middle;
+	label{
+		margin: 	0;
+		&:after{
+			content:"";
+			display: inline-block;
+			vertical-align: middle;
+			height: 100%;
+		}
+	}
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+
+.btn-primary {
+    color: #fff;
+    background-color: #ff924c;
+    border-color: #ff924c;
+    &:hover,&:focus,&.focus{
+	    background-color: #e57f3e;
+	    border-color: #e57f3e;    	
+    }
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+    color: #fff;
+    background-color: #804926;
+    border-color: #804926;
+}
+
+$theme-colors: (
+  "primary": #ff924c,
+  "danger": #ff4136
+);

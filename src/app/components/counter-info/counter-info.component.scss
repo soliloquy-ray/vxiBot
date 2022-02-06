@@ -1,0 +1,33 @@
+.counter-info{
+	display: inline-block;
+	padding:10px;
+	box-shadow: 0 0 3px 2px #888;
+	border-radius: 8px;
+	white-space: nowrap;
+	margin: 20px;// 0 20px 30px;
+	background-color: inherit;
+	fa-icon, div.text{
+		color: #fff;
+		display: inline-block;
+		vertical-align: middle;
+		padding:2.5px;
+		p{
+			margin:5px 0 15px;
+			max-width: 125px;
+			white-space: normal;
+		}
+		b{
+			font-size: 35px;
+		}
+	}
+	fa-icon{		
+		font-size: 35px;
+		margin:15px;
+	}
+	&:before{
+		content:"";
+		display: inline-block;
+		height: 100%;
+		vertical-align: middle;
+	}
+}		

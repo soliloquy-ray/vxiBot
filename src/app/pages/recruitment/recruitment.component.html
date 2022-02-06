@@ -1,0 +1,55 @@
+<div id="container">
+	<!-- <mat-form-field>
+		<mat-label>Filter Date</mat-label>
+		<input type="date" matInput [(ngModel)]="stamp" (change)="adl($event.target)"/>
+	</mat-form-field> -->
+	<span class="actions">
+		<a *ngIf="targets.length > 0" (click)="updateStatus(content)">Update Status</a>
+		<a download href="{{dlink}}" target="_blank">Download</a>
+		<a (click)="checkAll()">Check All</a>
+		<a [ngClass]="{'disabled':targets.length < 1}" (click)="checkAll(false)">Uncheck All</a>
+	</span>
+	<table #dt datatable [dtOptions]="dtOptions" class="row-border hover">
+	  <tfoot style="display: table-header-group;">
+	    <tr>
+	      <th><input class="form-control" type="text" (change)="adl($event.target)" [(ngModel)]="searchId" placeholder="Search ID" name="search-id"/></th>
+	      <th><input class="form-control" type="text" (change)="adl($event.target)" [(ngModel)]="searchVxd" placeholder="Search VXI ID" name="search-vxid"/></th>
+	      <th><input class="form-control" type="text" (change)="adl($event.target)" [(ngModel)]="searchName" placeholder="Search Name" name="search-name"/></th>
+	      <th><input class="form-control" type="text" (change)="adl($event.target)" [(ngModel)]="searchLoc" placeholder="Search Location" name="search-location"/></th>
+	      <th><input class="form-control" type="text" (change)="adl($event.target)" [(ngModel)]="searchStatus" placeholder="Search Status" name="search-status"/></th>
+	      <th><input class="form-control" type="text" (change)="adl($event.target)" [(ngModel)]="searchTitle" placeholder="Search Title" name="search-title"/></th>
+	      <th><input class="form-control" type="date" (change)="adl($event.target)" [(ngModel)]="stamp" placeholder="Search Date" name="search-stamp"/></th>
+	      <th><input class="form-control" type="text" (change)="adl($event.target)" [(ngModel)]="searchPhone" placeholder="Search Phone" name="search-phone"/></th>
+	      <th><input class="form-control" type="text" (change)="adl($event.target)" [(ngModel)]="searchEmail" placeholder="Search Email" name="search-email"/></th>
+	      <th><input class="form-control" type="text" (change)="adl($event.target)" [(ngModel)]="searchPlat" placeholder="Search Platform" name="search-platform"/></th><!-- 
+	      <th><input type="text" placeholder="Search Description" name="search-description"/></th>
+	      <th><input type="text" placeholder="Search Link" name="search-url"/></th>
+	      <th><input type="text" placeholder="Search Image" name="search-img"/></th> -->
+	    </tr>
+	  </tfoot>
+	</table>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update Status</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss(0)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="group">{{targets.length}} members will be updated.</label>
+        <div class="input-group">
+          <select #sel class="form-control" name="status">
+          	<option *ngFor="let s of statusList;let i = index" [value]="s">{{s}}</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close(sel.value)">Save</button>
+  </div>
+</ng-template>

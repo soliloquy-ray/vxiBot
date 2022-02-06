@@ -1,0 +1,16 @@
+<div id="container">
+	<form #form>
+		<mat-card>VXI Bot CMS Login</mat-card>
+		<mat-form-field>
+			<mat-label>Username</mat-label>
+			<input type="text" name="user" required matInput/>
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>Password</mat-label>
+			<input type="password" name="pass" required matInput/>
+		</mat-form-field>
+		<div>
+			<button class="btn btn-primary" (click)="login(form)">Login</button>
+		</div>
+	</form>
+</div>

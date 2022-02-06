@@ -1,0 +1,93 @@
+<div id="container">
+	<span class="actions">
+		<a [ngClass]="{'disabled':targets.length < 1 && targetGroups.length < 1}" (click)="sendSMS(content)">Send SMS</a>
+		<a (click)="checkAll()">Check All</a>
+		<a [ngClass]="{'disabled':targets.length < 1}" (click)="checkAll(false)">Uncheck All</a>
+		<a (click)="clearFilters()">Clear Filters</a>
+	</span>
+	<table #dt datatable [dtOptions]="dtOptions" class="row-border hover">
+	  <tfoot style="display: table-header-group;">
+	    <tr>
+	      <th>&nbsp;</th>
+	      <th><input class="form-control" type="text" placeholder="Search Name" name="search-name"/></th>
+	      <th>
+	      	<select name="position" class="form-control" placeholder="Search Categories">
+			  	<option value="" selected>---Search category---</option>
+			    <option *ngFor="let c of categs" [value]="c">
+			      {{c}}
+			    </option>
+			  </select>
+		  </th>
+	      <th><input class="form-control" type="text" placeholder="Search Phone" name="search-phone"/></th>
+	      
+	    </tr>
+	  </tfoot>
+	</table>
+	<!-- <div>
+		<div *ngFor="let d of dataSet;let i = index" class="candidate">
+			<span>
+				<input type="checkbox" class="form-control" (change)="checkers($event,d)"/>
+			</span>
+			<div>
+				<p>{{d?.first_name}} {{d?.last_name}}</p>
+				<p>{{d?.position}}</p>
+				<p>{{d?.location}}</p>
+				<p>{{d?.status}}</p>
+			</div>
+		</div>
+	</div> -->
+	<!-- <app-groups (grOpen)="grouper($event)"></app-groups> -->
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Send SMS - {{targets.length}} recipients</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss(0)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+	<!-- <app-groups (open)="grp($event)"></app-groups> -->
+    
+	<div class="messaging">
+		<div class="inner">
+			<mat-card>Name variable can be used: <a (click)="add_text('$name')">$name</a><!-- , <a (click)="add_text('$last_name')">$last_name</a>, <a (click)="add_text('$position')">$position</a>, and <a (click)="add_text('$location')">$location</a> -->.</mat-card>
+			<textarea [(ngModel)]="msg" name="msg" id="msg"></textarea>
+			<b *ngIf="!sched">SMS will be sent immediately.</b>
+			<div>
+				<mat-label>Send Later</mat-label>
+				<mat-checkbox [(ngModel)]="sched"></mat-checkbox>
+			</div>
+			<div *ngIf="sched" class="scheduler">
+				<mat-form-field>
+					<mat-label>Date</mat-label>
+					<input matInput type="date" [(ngModel)]="date" required/>
+				</mat-form-field>
+				<mat-form-field>
+					<mat-label>Time</mat-label>
+					<input matInput type="time" [(ngModel)]="time" required/>
+				</mat-form-field>
+			</div>
+			<span class="btn_ctrl">
+				<button class="btn" *ngIf="msg.length > 0" (click)="openDialog()">Save New Template</button>
+				<button class="btn" (click)="useTemplate()">Use Template</button>
+				<button class="btn btn-primary" (click)="smsToList()">Send</button>
+			</span>
+		</div>
+	</div>
+	<div class="templates">
+		<h3>Templates</h3>
+		<div class="temp">
+			<div class="list">
+				<ul>
+					<li *ngFor="let t of templates; let i = index" [ngClass]="{'selected':prevSelect == t.id}"><a (click)="picked(t?.id)">{{t?.title}}</a></li>
+				</ul>
+			</div>
+			<div class="preview">
+				<textarea [(ngModel)]="prevText" readonly></textarea>
+			</div>
+		</div>
+	</div>
+  </div>
+</ng-template>

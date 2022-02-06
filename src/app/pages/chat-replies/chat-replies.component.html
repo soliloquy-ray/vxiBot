@@ -1,0 +1,16 @@
+<div id="container">
+	<div class="body">
+		<app-user-chats (open)="msgr($event)"></app-user-chats>
+		<section class="replying">
+			<div class="previews">
+				<p *ngFor="let pp of dispMessages | slice:0:-1; let i = index;" class="{{pp?.type}}">{{pp?.message}}<i>{{pp?.created}}</i></p>
+				<p *ngIf="preview.trim().length > 0" class="{{data?.type}}">{{preview}}<i>{{sent}}</i></p>
+			</div>
+			<mat-form-field appearance="fill">
+			    <mat-label>Type your message</mat-label>
+			    <textarea matInput name="msg" [(ngModel)]="msg"></textarea>
+			</mat-form-field>
+			<button type="submit" matButton value="Send" (click)="botReply()">Send</button>
+		</section>
+	</div>
+</div>

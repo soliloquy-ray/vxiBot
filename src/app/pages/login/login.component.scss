@@ -1,0 +1,40 @@
+:host{
+	display: 	block;
+	position: 	relative;
+	height: 	100%;
+	width: 	100%;
+
+	#container{
+		height: 	100%;
+		width: 	100%;
+		background-color: 	wheat;
+		position: 	relative;
+		text-align: 	center;
+		&:before{
+			content:"";
+			display: 	inline-block;
+			height: 	100%;
+			vertical-align: 	middle;
+		}
+		form{
+			mat-card{
+				background-color: 	transparent;
+				color:#ff924c;
+				border:none;
+				box-shadow:none;
+				font-size: 	1.5rem;
+			}
+			padding:20px;
+			display: 	inline-block;
+			vertical-align: 	middle;
+			height: 	auto;
+			margin:auto;
+			width: 	300px;
+			background-color: 	#fff;
+			mat-form-field{
+				display:block;
+				margin:5px 0;
+			}
+		}
+	}
+}

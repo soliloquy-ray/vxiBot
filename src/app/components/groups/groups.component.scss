@@ -1,0 +1,87 @@
+.group-container{
+	h3{
+		font-family: SegoeUI;
+		margin:0;
+	}
+	ul{
+		padding:0;
+		max-height: 190px;
+		overflow-y: scroll;
+    border-radius: 8px;
+    border: 2px solid gold;
+		li{
+			&.hide{
+				display: none;
+			}
+			padding: 2.5px 10px;
+			display: block;
+			clear: both;
+			width: 100%;
+   			border-bottom: 1px ridge #fff;
+   			color:#fff;
+   			background-color:#ff924c;
+   			input[type=checkbox].form-control{
+			    display: inline-block;
+			    vertical-align: middle;
+			    width: 25px;
+			    margin: 0 10px 0 0;
+   			}
+   			div{
+   				display: inline-block;
+   				vertical-align: middle;
+			    width: calc(100% - 45px);
+			    padding: 0 5px;
+			    font-size: 1rem;
+			    label{
+			    	height: 100%;
+			    	width: 100%;
+			    }
+   				a,b{
+   					font-size:0.75rem;
+   					display: inline-block;
+   					float:right;
+   				}
+   			}
+   			a{
+   				display: inline-block;
+   				vertical-align: middle;
+   				color:#fff;
+   				text-transform: 	uppercase;
+   				font-size: 	0.8rem;	
+   				&:hover{
+   					color:gold;
+   				}
+   			}
+		}
+
+	}
+
+	button{
+		border:none;
+		border-radius: 16px;
+		margin: 0 0 0 10px;
+		color:#fff;
+		background-color: #ff924c;
+		padding:4px 10px;
+		text-transform: uppercase;
+		&:focus{
+			outline: none;
+		}
+	}
+}
+
+
+.sel-notif{
+	font-size: 0.8rem;
+	width: 100%;
+	text-align: right;
+}
+
+.modal-body{
+	ul{
+		padding:0;
+		li{
+			display: 	block;
+		}
+	}
+}

@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>Edit Carousel</h1>
+<div mat-dialog-content>
+	<form #form>
+		<span>
+			<a>
+				<img #prev src="{{prev}}" onerror="this.src = './assets/favicon.png'" />
+				<input name="img" type="file" accept=".png,.jpg,.gif" (change)="updImg($event)"/>					
+			</a>
+		</span>
+		<input type="hidden" name="id" [(ngModel)]="editing.id"/>
+		<input type="hidden" name="status" [(ngModel)]="editing.status"/>
+		<mat-form-field>
+			<mat-label>Category</mat-label>
+			<input matInput name="category" [(ngModel)]="editing.category" type="text"/>					
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>Title</mat-label>
+			<input matInput name="title" [(ngModel)]="editing.title" type="text"/>					
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>Description</mat-label>
+			<textarea matInput name="description" [(ngModel)]="editing.description"></textarea>					
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>Action Title</mat-label>
+			<input matInput name="action_title" [(ngModel)]="editing.action_title" type="text"/>					
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>Action Body</mat-label>
+			<input matInput name="action_body" [(ngModel)]="editing.action_body" type="text"/>					
+		</mat-form-field>
+		<div mat-dialog-actions>
+		  <button mat-button aria-label="close dialog" [mat-dialog-close]="0">Cancel</button>
+		  <button mat-button (click)="sub()">Save</button>
+		</div>
+	</form>
+</div>
