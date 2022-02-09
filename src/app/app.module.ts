@@ -47,6 +47,7 @@ import { CandidateSmsComponent } from './pages/candidate-sms/candidate-sms.compo
 import { LoginComponent } from './pages/login/login.component';
 import { OutboxComponent } from './pages/outbox/outbox.component';
 import { KeywordsComponent } from './pages/keywords/keywords.component';
+import { TestComponent } from './pages/test/test.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { KeywordsComponent } from './pages/keywords/keywords.component';
     LoginComponent,
     OutboxComponent,
     KeywordsComponent,
-    EditKeywordComponent
+    EditKeywordComponent,
+    TestComponent
   ],
   exports:[
     FormsModule,

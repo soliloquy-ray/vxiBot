@@ -11,6 +11,7 @@ import { BotRepliesComponent } from './pages/bot-replies/bot-replies.component';
 import { CandidateSmsComponent } from './pages/candidate-sms/candidate-sms.component';
 import { LoginComponent } from './pages/login/login.component';
 import { KeywordsComponent } from './pages/keywords/keywords.component';
+import { TestComponent } from './pages/test/test.component';
 
 const routes: Routes = [
   {path:'home',component:HomeComponent},
@@ -23,6 +24,7 @@ const routes: Routes = [
   {path:'messages',component:CandidateSmsComponent},
   {path:'login',component:LoginComponent},
   {path:'keywords',component:KeywordsComponent},
+  {path:'test',component:TestComponent},
   {path:'', redirectTo:'login',pathMatch:'full'}
 ];
 
