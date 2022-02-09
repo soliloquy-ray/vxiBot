@@ -4,7 +4,7 @@
 		<a [ngClass]="{'disabled':targets.length < 1 && targetGroups.length < 1,'viber':true}" (click)="sendViber(viber)">Send Viber</a>
 		<a [ngClass]="{'disabled':targets.length < 1 && targetGroups.length < 1,'sms':true}" (click)="sendSMS(content)">Send SMS</a>
 		<a (click)="checkAll()">Check All</a>
-		<a [ngClass]="{'disabled':targets.length < 1}" (click)="checkAll(false)">Uncheck All</a>
+		<a [ngClass]="{'disabled':targets.length < 1}" (click)="checkAll(true)">Uncheck All</a>
 		<a (click)="clearFilters()">Clear Filters</a>
 	</span>
 	<table #dt datatable [dtOptions]="dtOptions" class="row-border hover">

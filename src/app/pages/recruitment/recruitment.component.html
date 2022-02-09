@@ -4,10 +4,11 @@
 		<input type="date" matInput [(ngModel)]="stamp" (change)="adl($event.target)"/>
 	</mat-form-field> -->
 	<span class="actions">
+		<span><label for="exportFrom">From:</label><input type="date" id="exportFrom" [(ngModel)]="exportFrom" (change)="adl($event.target)"/>&nbsp;&nbsp;<label for="exportTo">To:</label><input type="date" id="exportTo" [(ngModel)]="exportTo" (change)="adl($event.target)"/> </span>
 		<a *ngIf="targets.length > 0" (click)="updateStatus(content)">Update Status</a>
 		<a download href="{{dlink}}" target="_blank">Download</a>
 		<a (click)="checkAll()">Check All</a>
-		<a [ngClass]="{'disabled':targets.length < 1}" (click)="checkAll(false)">Uncheck All</a>
+		<a [ngClass]="{'disabled':targets.length < 1}" (click)="checkAll(true)">Uncheck All</a>
 	</span>
 	<table #dt datatable [dtOptions]="dtOptions" class="row-border hover">
 	  <tfoot style="display: table-header-group;">
@@ -19,9 +20,11 @@
 	      <th><input class="form-control" type="text" (change)="adl($event.target)" [(ngModel)]="searchStatus" placeholder="Search Status" name="search-status"/></th>
 	      <th><input class="form-control" type="text" (change)="adl($event.target)" [(ngModel)]="searchTitle" placeholder="Search Title" name="search-title"/></th>
 	      <th><input class="form-control" type="date" (change)="adl($event.target)" [(ngModel)]="stamp" placeholder="Search Date" name="search-stamp"/></th>
+	      <th><input class="form-control" type="time" (change)="adl($event.target)" [(ngModel)]="stamp" placeholder="Search Time" name="search-stamp"/></th>
 	      <th><input class="form-control" type="text" (change)="adl($event.target)" [(ngModel)]="searchPhone" placeholder="Search Phone" name="search-phone"/></th>
 	      <th><input class="form-control" type="text" (change)="adl($event.target)" [(ngModel)]="searchEmail" placeholder="Search Email" name="search-email"/></th>
-	      <th><input class="form-control" type="text" (change)="adl($event.target)" [(ngModel)]="searchPlat" placeholder="Search Platform" name="search-platform"/></th><!-- 
+	      <th><input class="form-control" type="text" (change)="adl($event.target)" [(ngModel)]="searchPlat" placeholder="Search Platform" name="search-platform"/></th>
+	      <th><input class="form-control" type="text" (change)="adl($event.target)" [(ngModel)]="searchVacc" placeholder="Vax Status" name="search-vaccinated"/></th><!-- 
 	      <th><input type="text" placeholder="Search Description" name="search-description"/></th>
 	      <th><input type="text" placeholder="Search Link" name="search-url"/></th>
 	      <th><input type="text" placeholder="Search Image" name="search-img"/></th> -->

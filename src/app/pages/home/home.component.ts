@@ -129,6 +129,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     .then(data =>{
       self.initChart(data.map((a:any)=>{return {name:a.status,y:parseFloat(a.ct)}}),'Status',1);
     });
+    fetch(host+`candidates_by_source?s=${self.dateStart}&e=${self.dateEnd}`)
+    .then(response => response.json())
+    .then(data =>{
+      self.initChart(data.map((a:any)=>{return {name:a.platform,y:parseFloat(a.ct)}}),'Platform',3);
+    });
   }
 
   ngOnDestroy(){
@@ -217,6 +222,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     .then(data =>{
       self.charts[1].options.series[0].data = data.map((a:any)=>{return {name:a.title,y:parseFloat(a.ct)}});
       // console.log(self.charts[1]);
+    });
+    fetch(host+`candidates_by_source?s=${self.dateStart}&e=${self.dateEnd}`)
+    .then(response => response.json())
+    .then(data =>{
+      self.charts[3].options.series[3].data = data.map((a:any)=>{return {name:a.platform,y:parseFloat(a.ct)}});
+      // console.log(self.charts[0]);
     });
 
   }

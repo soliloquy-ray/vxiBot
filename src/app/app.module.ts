@@ -40,10 +40,13 @@ import { CarouselComponent } from './pages/carousel/carousel.component';
 import { GroupsComponent } from './components/groups/groups.component';
 import { NewGroupComponent } from './components/new-group/new-group.component';
 import { EditCarouselComponent } from './components/edit-carousel/edit-carousel.component';
+import { EditKeywordComponent } from './components/edit-keyword/edit-keyword.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BotRepliesComponent } from './pages/bot-replies/bot-replies.component';
 import { CandidateSmsComponent } from './pages/candidate-sms/candidate-sms.component';
 import { LoginComponent } from './pages/login/login.component';
+import { OutboxComponent } from './pages/outbox/outbox.component';
+import { KeywordsComponent } from './pages/keywords/keywords.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +65,10 @@ import { LoginComponent } from './pages/login/login.component';
     EditCarouselComponent,
     BotRepliesComponent,
     CandidateSmsComponent,
-    LoginComponent
+    LoginComponent,
+    OutboxComponent,
+    KeywordsComponent,
+    EditKeywordComponent
   ],
   exports:[
     FormsModule,

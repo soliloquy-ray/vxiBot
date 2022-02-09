@@ -10,10 +10,13 @@ export class AppComponent {
   faBars = faBars;
   title = 'vxiBot';
   sess = localStorage.sess || false;
+  pn = localStorage.pn;
 
   logout(){
     localStorage.removeItem('sess');
+    localStorage.removeItem('pn');
     this.sess = false;
+    this.pn = false;
     window.location.href = 'login';
   }
 }

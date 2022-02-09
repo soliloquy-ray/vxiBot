@@ -29,10 +29,11 @@ export class LoginComponent implements OnInit {
         method: "POST",
         body: form
     })
-    .then(function(res){ return res.text(); })
+    .then(function(res){ return res.json(); })
     .then(function(data){ 
-      if(data == '1'){
-        localStorage.sess = 1;
+      if(data){
+        localStorage.pn = data?.access;
+        localStorage.sess = data?.user;
         window.location.href = 'home';
       }else{
         self.openSnackBar('Invalid login.','OK');

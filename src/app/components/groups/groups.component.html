@@ -10,6 +10,8 @@
 		    >
 		    <div><label>{{g.name}}
 		    <a (click)="openModal(uig,g.id)"> View Members</a>
+		    <a (click)="openRenameGroupModal(renameg,g)"> Update</a>
+		    <a (click)="openDelGroupModal(delgroup,g.id)"> Delete</a>
 		  </label>
 		</div>
 		</li>
@@ -27,9 +29,43 @@
     </button>
   </div>
   <div class="modal-body">
-  	<p *ngIf="members.length < 1">This group has no members yet.</p>
-  	<ul *ngIf="members.length > 0">
-  		<li *ngFor="let m of members; let j = index">{{m?.name}}</li>
-  	</ul>
+  	<table #grp datatable [dtOptions]="dtOptions" class="grp row-border hover grp">
+	</table>
+  </div>
+</ng-template>
+
+<ng-template #renameg let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Enter new group name</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss(0)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+  	<input type="text" 
+    class="form-control"
+    id="rname"
+    [(ngModel)]="editGroup.name"/>
+    <input type="hidden" id="rid" [value]="editGroup.id"/>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modal.close(editGroup)">Rename</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close(0)">Cancel</button>
+  </div>
+</ng-template>
+
+<ng-template #delgroup let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Delete Group</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss(0)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+  	Are you sure you want to delete this group?
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modal.close(1)">Yes</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close(0)">Cancel</button>
   </div>
 </ng-template>

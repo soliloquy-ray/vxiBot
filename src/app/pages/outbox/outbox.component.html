@@ -1,0 +1,19 @@
+<div id="container">	
+	<span class="actions">
+		<span><label for="exportFrom">From:</label><input type="date" id="exportFrom" [(ngModel)]="exportFrom" (change)="adl($event.target)"/>&nbsp;&nbsp;<label for="exportTo">To:</label><input type="date" id="exportTo" [(ngModel)]="exportTo" (change)="adl($event.target)"/></span>
+		<a download href="{{dlink}}" target="_blank">Download</a> 
+	</span>
+	<table #dt datatable [dtOptions]="dtOptions" class="row-border hover">
+	  <tfoot style="display: table-header-group;">
+	    <tr>
+	      <th>&nbsp;</th>
+	      <th><input class="form-control" type="text" placeholder="Search Message" name="search-msg"/></th>
+	      <th><input class="form-control" type="text" placeholder="Search Phone Number" name="search-cel"/></th>
+	      <th>
+            <input class="form-control" id="sched" type="date" placeholder="Search Schedule" name="search-sched"/><br/>
+		  </th>
+	      <th><input class="form-control" type="text" placeholder="Search Status" name="search-status"/></th>
+	    </tr>
+	  </tfoot>
+	</table>
+</div>

@@ -8,6 +8,8 @@ import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
 import { SaveTemplateComponent } from '../../components/save-template/save-template.component';
 import { NewGroupComponent } from '../../components/new-group/new-group.component';
 import { GroupsComponent } from '../../components/groups/groups.component';
+import * as moment from 'moment';
+import { inArray } from 'jquery';
 /*import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';*/
@@ -27,6 +29,7 @@ export class CandidateSmsComponent implements  OnInit, AfterViewInit {
   dtOptions: any = {};
   leads: any = [];
   targets:any = [];
+  candidates:any = [];
   targetGroups:any = [];
   groups:any = [];
   msg:string = '';
@@ -120,14 +123,29 @@ export class CandidateSmsComponent implements  OnInit, AfterViewInit {
   });
 
     self.dtOptions = {
-      ajax:host+'main_candidates',
+      sAjaxSource:host+'m_candidates',
+      "bProcessing": true,
+      "bServerSide": true,
+      serverData:function(source:any,data:any,callback:any, oSettings:any ) {
+        if(moment(self.min).isValid()) data.push( { "name": "r1", "value": self.min } );
+        if(moment(self.max).isValid()) data.push( { "name": "r2", "value": self.max } );
+        oSettings.jqXHR = $.ajax( {
+          "dataType": 'json',
+          "type": "POST",
+          "url": source,
+          "data": data,
+          "success": callback
+        } );
+      },
       columns:[
         {
           title:'Action',
           data:'id',
           render:function(data:any, type:any, full:any){
             //return `<input type="checkbox" id="i_${data}"/>`;
-            return `<input type="checkbox" class="form-control" id="i_${data}"/>`;
+            let ch = '';
+            if(self.targets.find((e:any)=>e.id == data)) ch = 'checked';
+            return `<input type="checkbox" class="form-control" id="i_${data}" ${ch}/>`;
           }
         },
         {
@@ -178,14 +196,33 @@ export class CandidateSmsComponent implements  OnInit, AfterViewInit {
         });
         return row;
       },
-      initComplete:(settings:any,data:any)=>{        
-        
+      initComplete:(settings:any,data:any)=>{      
+        // self.candidates = data.ids.map((i:any)=>{return i.id}); 
+      },
+      drawCallback:(settings:any)=>{        
+        // self.candidates = data.ids.map((i:any)=>{return i.id});
+        self.candidates = settings.json.ids.map((i:any)=>{return {id:i.id,phone_number:i.phone_number}}); 
+        // console.log(self.candidates);
       },
       pagingType: 'full_numbers',
       pageLength: 10,
       responsive: true
     };
    
+  }
+  
+  reload(clear:boolean = false) {
+    this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.ajax.reload()
+    });
+    if(clear){
+      this.checkAll(false);
+      let table = $('table').DataTable();
+      table
+      .search( '' )
+      .columns().search( '' )
+      .draw();
+    }
   }
 
   checkers(e:any,data:any){
@@ -198,15 +235,33 @@ export class CandidateSmsComponent implements  OnInit, AfterViewInit {
     console.log(this.targets);
   }
  
-  checkAll(b:boolean = true){
+  checkAll(b:boolean = false){
     let self = this;
-    this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+    const arrayUnique = (array:Array<any>)=>{
+      let a = array.concat();
+      for(let i=0; i<a.length; ++i) {
+          for(let j=i+1; j<a.length; ++j) {
+              if(a[i].id === a[j].id)
+                  a.splice(j--, 1);
+          }
+      }
+  
+      return a;
+    }
+    if(b){
+      self.targets = [];
+    }else{
+      self.targets = arrayUnique([...self.candidates,...self.targets]);
+    }
+    // console.log(self.candidates,self.targets);
+     self.reload();
+    /* this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
       let test = dtInstance.rows({page:'all',search:'applied'});//.nodes();
       // $(test.nodes()).find('input[type=checkbox]').prop('checked',b);//.trigger('change');
-      /*self.targets = [];
-      if(b){
-        test.nodes().data().map(val=>self.targets.push(Object.assign({},val)));
-      }*/
+      // self.targets = [];
+      // if(b){
+      //   test.nodes().data().map(val=>self.targets.push(Object.assign({},val)));
+      // }
       for(let z=0;z<test.data().length;z++){
         //console.log(test.nodes()[z]);
         //$(test.nodes()[z]).find('input[type=checkbox]').prop('checked').trigger('change');
@@ -220,7 +275,7 @@ export class CandidateSmsComponent implements  OnInit, AfterViewInit {
         }
       }
       //console.log(self.targets);
-    });
+    }); */
   }
 
   addtoG(content:any) {
@@ -259,7 +314,7 @@ export class CandidateSmsComponent implements  OnInit, AfterViewInit {
       if(result){
         self.saveGroup(result);
       }else{
-        console.log('you get nothing. good day sir.');
+        // console.log('you get nothing. good day sir.');
       }
     });
   }
@@ -281,7 +336,7 @@ export class CandidateSmsComponent implements  OnInit, AfterViewInit {
       this.newGroup();
     }else{
       this.targetGroups = event.arr;
-      console.log(this.targetGroups);
+      // console.log(this.targetGroups);
     }
   }
 
@@ -300,7 +355,7 @@ export class CandidateSmsComponent implements  OnInit, AfterViewInit {
       }
     }, (reason) => {
       this.clrVbr();
-      console.log(reason);
+      // console.log(reason);
     });
   }
 
@@ -311,7 +366,7 @@ export class CandidateSmsComponent implements  OnInit, AfterViewInit {
         this.smsToList();
       }
     }, (reason) => {
-      console.log(reason);
+      // console.log(reason);
     });
   }
 
@@ -332,7 +387,7 @@ export class CandidateSmsComponent implements  OnInit, AfterViewInit {
         });
 
         $('input[type=date]').on('change',function(){
-          console.log(self.min,self.max);
+          // console.log(self.min,self.max);
           that.draw();
         })
       });

@@ -10,14 +10,18 @@
       <a (click)="sidenav.close()" [routerLink]="'/home'" mat-button>Dashboard</a>
       <a (click)="sidenav.close()" [routerLink]="'/recruitment'" mat-button>Recruitment</a>
       <!-- <a (click)="sidenav.close()" [routerLink]="'/messages'" mat-button>Messaging</a> -->
-      <a mat-button [matMenuTriggerFor]="messages">Messaging</a>
-      <mat-menu #messages="matMenu">
-        <a mat-menu-item (click)="sidenav.close()" [routerLink]="'/messages'" mat-button>Messages</a>
-        <a mat-menu-item (click)="sidenav.close()" [routerLink]="'/messages/referral'" mat-button>Referrals</a>
-      </mat-menu>
-      <a (click)="sidenav.close()" [routerLink]="'/user-chats'" mat-button>Chats</a>
-      <a (click)="sidenav.close()" [routerLink]="'/chatbot-replies'" mat-button>Chatbot Replies</a>
-      <a (click)="sidenav.close()" [routerLink]="'/carousel'" mat-button>Carousel</a>
+      <span  *ngIf="pn > 1">
+        <a mat-button [matMenuTriggerFor]="messages">Messaging</a>
+        <mat-menu #messages="matMenu">
+          <a mat-menu-item (click)="sidenav.close()" [routerLink]="'/messages'" mat-button>Messages</a>
+          <a mat-menu-item (click)="sidenav.close()" [routerLink]="'/messages/referral'" mat-button>Referrals</a>
+          <a mat-menu-item (click)="sidenav.close()" [routerLink]="'/messages/outbox'" mat-button>Outbox</a>
+        </mat-menu>
+      </span>
+      <a (click)="sidenav.close()" *ngIf="pn > 1" [routerLink]="'/user-chats'" mat-button>Chats</a>
+      <a (click)="sidenav.close()" *ngIf="pn > 1" [routerLink]="'/keywords'" mat-button>Keywords</a>
+      <a (click)="sidenav.close()" *ngIf="pn > 1" [routerLink]="'/chatbot-replies'" mat-button>Chatbot Replies</a>
+      <a (click)="sidenav.close()" *ngIf="pn > 1" [routerLink]="'/carousel'" mat-button>Carousel</a>
       <a (click)="logout();sidenav.close()" mat-button>Logout</a>
       <!-- <a (click)="sidenav.close()" href="#" mat-button>Reports</a> -->
     </div>
@@ -33,14 +37,18 @@
         <a (click)="sidenav.close()" [routerLink]="'/home'" mat-button>Dashboard</a>
         <a (click)="sidenav.close()" [routerLink]="'/recruitment'" mat-button>Recruitment</a>
         <!-- <a (click)="sidenav.close()" [routerLink]="'/messages'" mat-button>Messaging</a> -->
+        <a *ngIf="pn > 1">
         <a mat-button [matMenuTriggerFor]="messages">Messaging</a>
-        <mat-menu #messages="matMenu" xPosition="after">
-          <a mat-menu-item (click)="sidenav.close()" [routerLink]="'/messages'" mat-button>Messages</a>
-          <a mat-menu-item (click)="sidenav.close()" [routerLink]="'/messages/referral'" mat-button>Referrals</a>
-        </mat-menu>
-        <a (click)="sidenav.close()" [routerLink]="'/user-chats'" mat-button>Chats</a>
-        <a (click)="sidenav.close()" [routerLink]="'/chatbot-replies'" mat-button>Chatbot Replies</a>
-        <a (click)="sidenav.close()" [routerLink]="'/carousel'" mat-button>Carousel</a>
+          <mat-menu #messages="matMenu" xPosition="after">
+            <a mat-menu-item (click)="sidenav.close()" [routerLink]="'/messages'" mat-button>Messages</a>
+            <a mat-menu-item (click)="sidenav.close()" [routerLink]="'/messages/referral'" mat-button>Referrals</a>
+            <a mat-menu-item (click)="sidenav.close()" [routerLink]="'/messages/outbox'" mat-button>Outbox</a>
+          </mat-menu>
+        </a>
+        <a (click)="sidenav.close()" *ngIf="pn > 1" [routerLink]="'/user-chats'" mat-button>Chats</a>
+        <a (click)="sidenav.close()" *ngIf="pn > 1" [routerLink]="'/keywords'" mat-button>Keywords</a>
+        <a (click)="sidenav.close()" *ngIf="pn > 1" [routerLink]="'/chatbot-replies'" mat-button>Chatbot Replies</a>
+        <a (click)="sidenav.close()" *ngIf="pn > 1" [routerLink]="'/carousel'" mat-button>Carousel</a>
         <a (click)="logout();sidenav.close()" mat-button>Logout</a>
         <!-- <a (click)="sidenav.close()" href="#" mat-button>Reports</a> -->
       </div>

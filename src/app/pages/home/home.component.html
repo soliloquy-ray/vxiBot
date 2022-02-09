@@ -68,6 +68,12 @@
 		    		<div [chart]="charts[2]"></div>
 			    </ng-template>
 			  </li>
+			  <li [ngbNavItem]="4">
+			    <a ngbNavLink>Candidates By Source</a>
+			    <ng-template ngbNavContent>
+		    		<div [chart]="charts[3]"></div>
+			    </ng-template>
+			  </li>
 			</ul>
 
 			<div [ngbNavOutlet]="nav" class="mt-2"></div>

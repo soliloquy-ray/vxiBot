@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild  } from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { DataTableDirective } from 'angular-datatables';
+import * as moment from 'moment';
 /*import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';*/
@@ -17,6 +18,7 @@ export class RecruitmentComponent implements  OnInit, AfterViewInit {
   dtOptions: any = {};
   leads: any = [];
   targets:any[] = [];
+  candidates:any[] = [];
   statusList:string[] = [];
   searchId:string = '';
   searchVxd:string = '';
@@ -27,14 +29,17 @@ export class RecruitmentComponent implements  OnInit, AfterViewInit {
   searchPhone:string = '';
   searchEmail:string = '';
   searchPlat:string = '';
+  searchVacc:string = '';
   stamp:any;
+  exportFrom:any = moment().format('YYYY-MM-DD');
+  exportTo:any= moment().format('YYYY-MM-DD');
   dlink = host+"recruitment_leads";
   // dtTrigger: Subject<any> = new Subject<any>();
   constructor(/*private httpClient: HttpClient*/private modalService:NgbModal) { }
   
   adl(th:any){
     
-    this.dlink = `${host}recruitment_leads?id=${this.searchId}&name=${this.searchName}&loc=${this.searchLoc}&status=${this.searchStatus}&title=${this.searchTitle}&mob=${this.searchPhone}&email=${this.searchEmail}&plat=${this.searchPlat}&stamp=${this.stamp}&vxid=${this.searchVxd}`;
+    this.dlink = `${host}recruitment_leads?id=${this.searchId}&name=${this.searchName}&loc=${this.searchLoc}&status=${this.searchStatus}&title=${this.searchTitle}&mob=${this.searchPhone}&email=${this.searchEmail}&plat=${this.searchPlat}&stamp=${this.exportFrom}_${this.exportTo}&vxid=${this.searchVxd}`;
   }
 
   updateStatus(content:any) {
@@ -60,18 +65,19 @@ export class RecruitmentComponent implements  OnInit, AfterViewInit {
       console.log(reason);
     });
   }
-
-
-  reload() {
+  
+  reload(clear:boolean = false) {
     this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.ajax.reload()
     });
-    this.checkAll(false);
-    var table = $('table').DataTable();
-    table
-     .search( '' )
-     .columns().search( '' )
-     .draw();
+    if(clear){
+      this.checkAll(false);
+      let table = $('table').DataTable();
+      table
+      .search( '' )
+      .columns().search( '' )
+      .draw();
+    }
   }
 
   ngOnInit(): void {
@@ -84,12 +90,16 @@ export class RecruitmentComponent implements  OnInit, AfterViewInit {
     self.dtOptions = {
       ajax:host,
       serverSide:true,
+      order:[[6,'desc'],[7,'desc']],
       columns:[
         {
           title:'ID',
           data:'id',
           render:function(data:any, type:any, full:any){
-            return `<input type="checkbox" class="form-control chb" id="i_${data}"/>`;
+            //return `<input type="checkbox" id="i_${data}"/>`;
+            let ch = '';
+            if(self.targets.find((e:any)=>e.id == data)) ch = 'checked';
+            return `<input type="checkbox" class="form-control" id="i_${data}" ${ch}/>`;
           }
         },
         {
@@ -117,6 +127,10 @@ export class RecruitmentComponent implements  OnInit, AfterViewInit {
           data:'timestamp'
         },
         {
+          title:'Time',
+          data:'time'
+        },
+        {
           title:'Phone',
           data:'phone'
         },
@@ -127,6 +141,13 @@ export class RecruitmentComponent implements  OnInit, AfterViewInit {
         {
           title:'Platform',
           data:'platform'
+        },
+        {
+          title:'Vaccinated',
+          data:'vaccinated',
+          render:function(data:any, type:any, full:any){
+            return (data === "Y") ? data : 'N';
+          }
         }/*,
         {
           title:'Last Name',
@@ -158,7 +179,7 @@ export class RecruitmentComponent implements  OnInit, AfterViewInit {
         // Note: In newer jQuery v3 versions, `unbind` and `bind` are 
         // deprecated in favor of `off` and `on`
         $('td input:checkbox', row).off('change');
-        $('td input:checkbox', row).on('change',(e:any) => {
+        $('td input:checkbox', row).on('change', (e:any) => {
           //console.log(e.target.checked,data);
           if(e.target.checked){
             self.targets.push(data);
@@ -169,6 +190,10 @@ export class RecruitmentComponent implements  OnInit, AfterViewInit {
           console.log(self.targets);
         });
         return row;
+      },
+      drawCallback:(settings:any)=>{
+        self.candidates = settings.json.ids.map((i:any)=>{return {id:i.id}}); 
+        // console.log(self.candidates);
       },
       pagingType: 'full_numbers',
       pageLength: 10,
@@ -182,34 +207,32 @@ export class RecruitmentComponent implements  OnInit, AfterViewInit {
       });*/
   }
 
-  checkAll(b:boolean = true){
+  checkAll(b:boolean = false){
     let self = this;
-    this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      let test = dtInstance.rows({page:'all',search:'applied'});//.nodes();
-      // $(test.nodes()).find('input[type=checkbox]').prop('checked',b);//.trigger('change');
-      /*self.targets = [];
-      if(b){
-        test.nodes().data().map(val=>self.targets.push(Object.assign({},val)));
-      }*/
-      for(let z=0;z<test.data().length;z++){
-        //$(test.nodes()[z]).find('input[type=checkbox]').prop('checked').trigger('change');
-        let d = test.data()[z];
-        let ind = self.targets.findIndex(a=>a.user_id === d.user_id);
-        $(test.nodes()[z]).find('input[type=checkbox]').prop('checked',b);
-        if(b){
-          if(ind < 0) self.targets.push(d);
-        }else{
-          self.targets = [];
-        }
+    const arrayUnique = (array:Array<any>)=>{
+      let a = array.concat();
+      for(let i=0; i<a.length; ++i) {
+          for(let j=i+1; j<a.length; ++j) {
+              if(a[i].id === a[j].id)
+                  a.splice(j--, 1);
+          }
       }
-      console.log(self.targets);
-    });
+  
+      return a;
+    }
+    if(b){
+      self.targets = [];
+    }else{
+      self.targets = arrayUnique([...self.candidates,...self.targets]);
+    }
+    console.log(self.candidates,self.targets);
+     self.reload();
   }
 
 
   ngAfterViewInit(): void {
     let self = this;
-    console.log(self.datatableElement);
+    console.log(self.exportFrom, self.exportTo);
     this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.columns().every(function() {
         const that = this;
