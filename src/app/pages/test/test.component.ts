@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {tableData} from '../../ext/raw';
+import {tableData} from '../../ext/gm';
 
 @Component({
   selector: 'app-test',
@@ -11,9 +11,9 @@ export class TestComponent implements OnInit {
   constructor() { }
 
   async ngOnInit() {
-    let box = await this.transformBox(tableData);
-    console.log(box);
-    // console.log(tableData);
+    /* let box = await this.transformBox(tableData);
+    console.log(box); */
+    console.log(tableData);
   }
 
   private async transformBox(liveStreamData:any){    
