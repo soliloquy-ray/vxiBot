@@ -23,6 +23,15 @@ app-home #container {
 }
 
 
+app-accounts{
+	
+	.dataTables_wrapper{            
+		max-width: 500px;
+		display: block;
+		padding:20px;
+	}
+}
+
 tr{
 	.form-control{
 		height: 30px !important;

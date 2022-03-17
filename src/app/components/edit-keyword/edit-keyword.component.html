@@ -10,14 +10,14 @@
 			<mat-label>Response</mat-label>
 			<textarea matInput name="response" [(ngModel)]="editing.response"></textarea>					
 		</mat-form-field>
-		<mat-form-field>
+		<!-- <mat-form-field>
 			<mat-label>Status</mat-label>
 			<input matInput name="status" [(ngModel)]="editing.status" type="number" min="0"/>					
 		</mat-form-field>
 		<mat-form-field>
 			<mat-label>Keyboard Carousel Name</mat-label>
 			<input matInput name="keyboard_carousel_name" [(ngModel)]="editing.keyboard_carousel_name" type="text"/>					
-		</mat-form-field>
+		</mat-form-field> -->
 		<div mat-dialog-actions>
 		  <button mat-button aria-label="close dialog" [mat-dialog-close]="0">Cancel</button>
 		  <button mat-button (click)="sub()">Save</button>

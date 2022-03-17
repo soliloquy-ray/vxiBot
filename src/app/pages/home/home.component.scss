@@ -5,12 +5,20 @@
 	height: 100%;
 	width: 100%;
     min-height: calc(100vh - 40px);
+
+
 	.body{
 		height: 100%;
 		width: 100%;
 		display: block;
     	text-align: center;
-
+		.dates{
+			mat-form-field{
+				input{
+					text-align: center;;
+				}
+			}
+		}
 		.elem{
 			background-color: #fff;
 			display: block;
@@ -21,6 +29,15 @@
 			canvas{
 				max-width: 500px;
 				margin:15px auto;
+			}
+
+			ul{
+				li{
+					mat-spinner{
+						display: block;
+						margin:auto;
+					}
+				}
 			}
 		}
 	}

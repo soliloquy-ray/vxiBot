@@ -2,6 +2,8 @@
 	<fa-icon [icon]="icon"></fa-icon>
 	<div class="text">
 		<p>{{title}}</p>
-		<b>{{count}}</b>
+		<b *ngIf="count >= 0">{{count}}</b>
+		<b class="sm" *ngIf="count < 0">Fetching data...</b>
+
 	</div>
 </div>

@@ -9,6 +9,10 @@
 				<mat-label>Filter By End Date</mat-label>
 				<input matInput [min]="dateStart" type="date" [(ngModel)]="dateEnd" (change)="reloadData(this)"/>
 			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Refresh Timer - seconds</mat-label>
+				<input matInput [min]="5" type="number" [(ngModel)]="refreshTimer" (change)="reloadData(this)"/>
+			</mat-form-field>
 		</span>
 		<span class="elem">
 			<app-counter-info [title]="'Number of active users today'" [count]="activeUsers" [icon]="faUser" [color]="'gold'"></app-counter-info>
@@ -44,7 +48,8 @@
 			  <li [ngbNavItem]="1">
 			    <a ngbNavLink>Applicants By Site</a>
 			    <ng-template ngbNavContent>
-		    		<div [chart]="charts[0]"></div>
+					<mat-spinner *ngIf="!charts[0]"></mat-spinner>
+		    		<div *ngIf="charts[0]" [chart]="charts[0]"></div>
 			    </ng-template>
 			  </li>
 			  <li [ngbNavItem]="2">
@@ -59,19 +64,29 @@
 						  </mat-option>
 						</mat-select>
 					</mat-form-field>
-		    		<div [chart]="charts[1]"></div>
+					<mat-spinner *ngIf="!charts[1]"></mat-spinner>
+		    		<div *ngIf="charts[1]" [chart]="charts[1]"></div>
 			    </ng-template>
 			  </li>
 			  <li [ngbNavItem]="3">
 			    <a ngbNavLink>Applicants By Job</a>
 			    <ng-template ngbNavContent>
-		    		<div [chart]="charts[2]"></div>
+					<mat-spinner *ngIf="!charts[2]"></mat-spinner>
+		    		<div *ngIf="charts[2]" [chart]="charts[2]"></div>
 			    </ng-template>
 			  </li>
 			  <li [ngbNavItem]="4">
 			    <a ngbNavLink>Candidates By Source</a>
 			    <ng-template ngbNavContent>
-		    		<div [chart]="charts[3]"></div>
+					<mat-spinner *ngIf="!charts[3]"></mat-spinner>
+		    		<div *ngIf="charts[3]" [chart]="charts[3]"></div>
+			    </ng-template>
+			  </li>
+			  <li [ngbNavItem]="5">
+			    <a ngbNavLink>Web Applicants By Source</a>
+			    <ng-template ngbNavContent>
+					<mat-spinner *ngIf="!charts[4]"></mat-spinner>
+		    		<div *ngIf="charts[4]" [chart]="charts[4]"></div>
 			    </ng-template>
 			  </li>
 			</ul>

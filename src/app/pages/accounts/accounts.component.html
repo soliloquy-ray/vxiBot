@@ -1,0 +1,53 @@
+<div id="container">
+	<div class="body">
+		<table #dt datatable [dtOptions]="dtOptions" class="row-border hover">
+		</table>
+        <span class="actions">
+            <a (click)="newUser(us)">Add User</a>
+        </span>
+	</div>
+</div>
+
+<ng-template #us let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Create New User Account</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss(0)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <form class="userform">
+        <div class="par">
+            <span>
+                <label for="username">Username</label>
+                <input id="username" [(ngModel)]="user" name="user" type="text" required/>
+            </span>
+            <span>
+                <label for="pass">Password</label>
+                <input id="pass" [(ngModel)]="pass" name="pass" type="password" required/>
+            </span>
+            <span>
+                <label for="cpass">Confirm Password</label>
+                <input id="cpass" [(ngModel)]="cpass" type="password" required/>
+            </span>
+            <span>
+                <label for="account">Account Type</label>
+                <select id="account" [(ngModel)]="access" name="access" required>
+                    <option selected></option>
+                    <option value="1">Regular User</option>
+                    <option value="2">Admin</option>
+                </select>
+            </span>
+        </div>
+        <div class="right">
+            <ul>
+                <li>All fields required</li>
+                <li>Passwords must match</li>
+            </ul>
+        </div>
+      </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modal.close(1)" [disabled]="user == '' || pass == '' || pass != cpass || access ==''">Save</button>
+  </div>
+</ng-template>

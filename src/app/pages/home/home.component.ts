@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   dateEnd:any = null;
 
   targetLoc:any = '';
+  refreshTimer:number = 5;
 
   constructor() { }
 
@@ -63,7 +64,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           }*/
       },
-      colors:['gold','steelblue','forestgreen','blueviolet','darkred','royalblue','#7fa956','darkorange','deepskyblue','hotpink','wheat'],
+      colors:['steelblue','blueviolet','forestgreen','gold','darkred','royalblue','#7fa956','darkorange','deepskyblue','hotpink','wheat'],
       title: {
           text: 'Applicants By '+title
       },
@@ -134,6 +135,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     .then(data =>{
       self.initChart(data.map((a:any)=>{return {name:a.platform,y:parseFloat(a.ct)}}),'Platform',3);
     });
+    fetch(host+`web_candidates_by_source?s=${self.dateStart}&e=${self.dateEnd}`)
+    .then(response => response.json())
+    .then(data =>{
+      self.initChart(data.map((a:any)=>{return {name:a.src,y:parseFloat(a.ct)}}),'Web Source',4);
+    });
   }
 
   ngOnDestroy(){
@@ -149,6 +155,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     let self = this;
     clearInterval(self.int);
 
+    self.activeUsers = -1;
+    self.totalUsers = self.dailyApplicants = self.totalApplicants = self.totalSubs = self.totalDupes = self.totalLeads = self.totalHired = -1;
     fetch(host+`stats_active_users?s=${self.dateStart}&e=${self.dateEnd}`)
     .then(response => response.json())
     .then(data =>{
@@ -199,7 +207,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     self.int = setInterval(function(){
       self.fetchData();
-    },5000);
+    },self.refreshTimer * 1000);
   }
   //Hi $name! My name is Vixie, the automated Recruitment Assistant for VXI Philippines. I’m here to assist you with your application today. 😄
 
@@ -227,6 +235,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     .then(response => response.json())
     .then(data =>{
       self.charts[3].options.series[3].data = data.map((a:any)=>{return {name:a.platform,y:parseFloat(a.ct)}});
+      // console.log(self.charts[0]);
+    });
+    fetch(host+`web_candidates_by_source?s=${self.dateStart}&e=${self.dateEnd}`)
+    .then(response => response.json())
+    .then(data =>{
+      self.charts[4].options.series[4].data = data.map((a:any)=>{return {name:a.src,y:parseFloat(a.ct)}});
       // console.log(self.charts[0]);
     });
 

@@ -18,6 +18,10 @@
 		}
 		b{
 			font-size: 35px;
+			line-height: 37px;
+			&.sm{
+				font-size:14px;
+			}
 		}
 	}
 	fa-icon{		

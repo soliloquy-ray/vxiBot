@@ -12,6 +12,7 @@ import { CandidateSmsComponent } from './pages/candidate-sms/candidate-sms.compo
 import { LoginComponent } from './pages/login/login.component';
 import { KeywordsComponent } from './pages/keywords/keywords.component';
 import { TestComponent } from './pages/test/test.component';
+import { AccountsComponent } from './pages/accounts/accounts.component';
 
 const routes: Routes = [
   {path:'home',component:HomeComponent},
@@ -25,6 +26,7 @@ const routes: Routes = [
   {path:'login',component:LoginComponent},
   {path:'keywords',component:KeywordsComponent},
   {path:'test',component:TestComponent},
+  {path:'accounts',component:AccountsComponent},
   {path:'', redirectTo:'login',pathMatch:'full'}
 ];
 

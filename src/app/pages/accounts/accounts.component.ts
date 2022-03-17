@@ -1,19 +1,18 @@
 import { Component, OnInit, AfterViewInit, ViewChild,ElementRef } from '@angular/core';
 import {MatFormField, MatLabel } from '@angular/material/form-field';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { DataTableDirective } from 'angular-datatables';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 
-import {EditKeywordComponent} from '../../components/edit-keyword/edit-keyword.component';
-
 declare var host:string;
 @Component({
-  selector: 'app-keywords',
-  templateUrl: './keywords.component.html',
-  styleUrls: ['./keywords.component.scss']
+  selector: 'app-accounts',
+  templateUrl: './accounts.component.html',
+  styleUrls: ['./accounts.component.scss']
 })
-export class KeywordsComponent implements OnInit, AfterViewInit {
+export class AccountsComponent implements OnInit, AfterViewInit {
 
   // @ViewChild('prev') img !:ElementRef;
   @ViewChild('form') form !:ElementRef;
@@ -21,46 +20,56 @@ export class KeywordsComponent implements OnInit, AfterViewInit {
   dtTrigger= new Subject();
   dtOptions: any = {};
   data:any;
-  editing:{id:number,category:string,title:string,description:string,action_title:string,action_body:string,status:number} = {id:0,category:'',title:'',description:'',action_title:'',action_body:'',status:0};
-  prev:string = '';
-  constructor(private _snackBar:MatSnackBar,public dialog: MatDialog) { }
+  user:string = '';
+  pass:string = '';
+  cpass:string = '';
+  access:string = '';
+  constructor(private _snackBar:MatSnackBar,public dialog: MatDialog, private modalService:NgbModal) { }
 
-  openDialog(data:any): void {
+
+  newUser(content:any) {
     let self = this;
-    const dialogRef = this.dialog.open(EditKeywordComponent, {
-      //width: '350px',
-      data: data,
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-      self.fetchData();
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      if(result > 0 && self.user.length > 0 && self.pass.length > 0 && self.access.length > 0){
+        let frm = new FormData(<HTMLFormElement>$('.userform').get(0));
+    
+        fetch(`${host}add_user_account`,
+            {
+                method: "POST",
+                body: frm
+            })
+            .then(response=>response.json())
+            .then(r=>{
+              self.fetchData();
+              self.openSnackBar('User has been added.','OK');
+            })
+            .catch(err=>{console.warn(err)});
+      }
+    }, (reason) => {
+      console.log(reason);
     });
   }
 
   ngOnInit(): void {let self = this;
     self.dtOptions = {
-      ajax:host+'get_keywords',
+      ajax:host+'get_user_accounts',
       columns:[
-        {
-          title:'ID',
-          data:'id',  
+        /* {
+          title:'Action',
+          data:'user',  
           render:function(data:any,type:any,full:any){
             return `<button class="btn btn-primary">Edit</button>`
           }
+        }, */
+        {
+          title:'Username',
+          data:'user'
         },
         {
-          title:'Question',
-          data:'question',
+          title:'Access Type',
+          data:'access',
           render:function(data:any,type:any,full:any){
-            return `<textarea readonly resize="none" style="border-radius:4px;resize:none;width:100%;height:auto">${data}</textarea>`
-          }
-        },
-        {
-          title:'Response',
-          data:'response',
-          render:function(data:any,type:any,full:any){
-            return `<textarea readonly resize="none" style="border-radius:4px;resize:none;width:100%;height:auto">${data}</textarea>`
+            return data == '1' ? 'Regular' : 'Admin';
           }
         }/* ,
         {
@@ -80,7 +89,6 @@ export class KeywordsComponent implements OnInit, AfterViewInit {
         // deprecated in favor of `off` and `on`
         $('td button', row).off('click');
         $('td button', row).on('click', () => {
-          self.openDialog(data);
         });
         return row;
       },
@@ -99,7 +107,6 @@ export class KeywordsComponent implements OnInit, AfterViewInit {
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {verticalPosition:'top',horizontalPosition:'center',duration:5000});
   }
-
 
 
   ngAfterViewInit(): void{
@@ -121,17 +128,14 @@ export class KeywordsComponent implements OnInit, AfterViewInit {
     // this.fetchData();
   }
 
-  select(d:any){
-    console.log(d);
-    this.editing = d;
-    this.prev = d.img;
-    // this.img.nativeElement.src = d.img;
-  }
-
   fetchData(){
     this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.ajax.reload()
     });
+    this.user = '';
+    this.pass = '';
+    this.cpass = '';
+    this.access = '';
   }
 
 }

@@ -23,6 +23,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSelectModule} from '@angular/material/select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 /*highcharts*/
 import { ChartModule } from 'angular-highcharts';
@@ -48,6 +49,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { OutboxComponent } from './pages/outbox/outbox.component';
 import { KeywordsComponent } from './pages/keywords/keywords.component';
 import { TestComponent } from './pages/test/test.component';
+import { AccountsComponent } from './pages/accounts/accounts.component';
 
 @NgModule({
   declarations: [
@@ -70,13 +72,15 @@ import { TestComponent } from './pages/test/test.component';
     OutboxComponent,
     KeywordsComponent,
     EditKeywordComponent,
-    TestComponent
+    TestComponent,
+    AccountsComponent
   ],
   exports:[
     FormsModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    MatProgressSpinnerModule
   ],
   imports: [
     CommonModule,
@@ -90,6 +94,7 @@ import { TestComponent } from './pages/test/test.component';
     MatSnackBarModule,
     MatButtonModule,
     MatCardModule,
+    MatProgressSpinnerModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
     DataTablesModule,

@@ -90,6 +90,7 @@ export class RecruitmentComponent implements  OnInit, AfterViewInit {
     self.dtOptions = {
       ajax:host,
       serverSide:true,
+      "bProcessing": true,
       order:[[6,'desc'],[7,'desc']],
       columns:[
         {
@@ -141,14 +142,14 @@ export class RecruitmentComponent implements  OnInit, AfterViewInit {
         {
           title:'Platform',
           data:'platform'
-        },
+        }/*,
         {
           title:'Vaccinated',
           data:'vaccinated',
           render:function(data:any, type:any, full:any){
             return (data === "Y") ? data : 'N';
           }
-        }/*,
+        },
         {
           title:'Last Name',
           data:'last_name'
